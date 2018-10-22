@@ -16,14 +16,31 @@ data "template_file" "swagger" {
   template = "${file("files/swagger.yaml")}"
 
   vars {
-    name     = "${var.name}"
-    env      = "${var.env}"
-    dns_name = "${var.domain}"
+    name              = "${var.name}"
+    env               = "${var.env}"
+    dns_name          = "${var.domain}"
+    client_name       = ${var.client_name}
+    application_name  = ${var.application_name}
   }
 }
 ```
 
 Example of Swagger file:
 ```yaml
-
+---
+swagger: "2.0"
+info:
+  version: "2018-10-21T18:37:10Z"
+  title: "${client_name}-${application_name}"
+host: "${dns_name}"
+basePath: "${stage}"
+schemes:
+- "https"
+paths:
+  /:
+    get:
+      consumes:
+      - "application/json"
+      produces:
+      - "application/json"
 ```
